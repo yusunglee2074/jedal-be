@@ -11,9 +11,14 @@ export const mutation = {
       slug: { type: GraphQLString },
     },
     async resolve(_root, args) {
+      const { title, description } = args;
       const manager = getManager();
-      const result = manager.create(Job, args);
+      const job = new Job();
+      job.title = title;
+      job.description = description;
+      const result = await manager.save(job);
       console.log(result);
+
     },
   },
 };

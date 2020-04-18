@@ -5,7 +5,6 @@ import { GraphQLDateTime } from 'graphql-iso-date';
 @Entity()
 export class Job {
   @ObjectIdColumn()
-  @PrimaryGeneratedColumn()
   _id: ObjectID;
 
   @Column()
@@ -29,7 +28,7 @@ export class Job {
 export const JobType = new GraphQLObjectType({
   name: 'Job',
   fields: {
-    _id: { type: GraphQLString },
+    _id: { type: GraphQLID },
     title: { type: GraphQLString },
     slug: { type: GraphQLString },
     description: { type: GraphQLString },
