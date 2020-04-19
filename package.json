@@ -1,8 +1,8 @@
 {
   "name": "jedal-be",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "main": "src/App.ts",
-  "repository": "https://github.com/hans-hk/jedal",
+  "repository": "https://github.com/yusunglee2074/jedal-be",
   "author": "jedal",
   "license": "MIT",
   "scripts": {
