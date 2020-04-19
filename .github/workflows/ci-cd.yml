@@ -40,7 +40,7 @@ jobs:
           --application-name api-server
           --description "This is a revision for the api-server"
           --ignore-hidden-files
-          --s3-location s3://deployments/staging-api-server.zip
+          --s3-location s3://jedal-be/deployments/staging-api-server.zip
           --source .
     - name: AWS Create Deploy
       uses: ItsKarma/aws-cli@v1.70.0
@@ -55,7 +55,7 @@ jobs:
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name staging
           --file-exists-behavior OVERWRITE
-          --s3-location bucket=deployments,key=staging-api-server.zip,bundleType=zip
+          --s3-location bucket=jedal-be,key=staging-api-server.zip,bundleType=zip
 
   production-deploy:
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
           --application-name api-server
           --description "This is a revision for the api-server"
           --ignore-hidden-files
-          --s3-location s3://deployments/production-api-server.zip
+          --s3-location s3://jedal-be/deployments/production-api-server.zip
           --source .
     - name: AWS Create Deploy
       uses: ItsKarma/aws-cli@v1.70.0
@@ -96,4 +96,4 @@ jobs:
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name production
           --file-exists-behavior OVERWRITE
-          --s3-location bucket=deployments,key=production-api-server.zip,bundleType=zip
+          --s3-location bucket=jedal-be,key=production-api-server.zip,bundleType=zip
