@@ -40,7 +40,7 @@ jobs:
           --application-name api-server
           --description "This is a revision for the api-server"
           --ignore-hidden-files
-          --s3-location s3://jedal-be/deployments/staging-api-server.zip
+          --s3-location s3://jedal-be/staging-api-server.zip
           --source .
     - name: AWS Create Deploy
       uses: ItsKarma/aws-cli@v1.70.0
@@ -81,7 +81,7 @@ jobs:
           --application-name api-server
           --description "This is a revision for the api-server"
           --ignore-hidden-files
-          --s3-location s3://jedal-be/deployments/production-api-server.zip
+          --s3-location s3://jedal-be/production-api-server.zip
           --source .
     - name: AWS Create Deploy
       uses: ItsKarma/aws-cli@v1.70.0
