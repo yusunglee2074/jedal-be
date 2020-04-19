@@ -5,9 +5,9 @@ files:
     destination: /srv/api-server
 hooks:
   AfterInstall:
-    - location: scripts/reload_pm2.sh
+    - location: scripts/reload-pm2.sh
       timeout: 300
       runas: ubuntu
   ValidateService:
-    - location: scripts/validate_service.sh
+    - location: scripts/validate-service.sh
       timeout: 300
