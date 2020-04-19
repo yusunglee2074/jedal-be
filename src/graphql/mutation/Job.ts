@@ -16,9 +16,11 @@ export const mutation = {
       const job = new Job();
       job.title = title;
       job.description = description;
-      const result = await manager.save(job);
-      console.log(result);
-
+      try {
+        return await manager.save(job);
+      } catch (e) {
+        throw Error('에러');
+      }
     },
   },
 };
