@@ -9,7 +9,8 @@
     "dev": "nodemon --exec ts-node -- ./src/index.ts",
     "start": "NODE_ENV=production nodemon --exec ts-node -- ./src/index.ts",
     "deploy": "pm2 delete jedal-server && pm2 start yarn --interpreter bash --name jedal-server -- start",
-    "test": "echo Have To TEST!" 
+    "test": "echo Have To TEST!",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -18,11 +19,16 @@
     "graphql": "^15.0.0",
     "graphql-iso-date": "^3.6.1",
     "graphql-playground-middleware-express": "^1.7.12",
+    "graphql-tools": "^5.0.0",
     "mongodb": "^3.5.5",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.24"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.13.3",
+    "@graphql-codegen/introspection": "1.13.3",
+    "@graphql-codegen/typescript": "1.13.3",
+    "@graphql-codegen/typescript-resolvers": "1.13.3",
     "@types/express": "^4.17.4",
     "@types/graphql-iso-date": "^3.3.3",
     "@types/node": "^13.11.0",
