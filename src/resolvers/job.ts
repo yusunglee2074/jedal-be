@@ -1,11 +1,12 @@
 import { getManager } from 'typeorm';
 import { Job } from '../entity/Job';
+import { Resolvers } from '../generated/graphql';
 
-const resolver = {
+const resolver: Resolvers = {
   Query: {
     job(_root, args) {
       const manager = getManager();
-      return manager.findOne(Job, args.id);
+      return manager.findOne(Job, args._id);
     },
   },
   Mutation: {
