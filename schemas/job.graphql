@@ -1,0 +1,12 @@
+scalar DateTime
+
+type Job {
+    _id: String!
+    title: String
+    description: String
+    thumbURL: String
+    photoURL: String
+    createdAt: DateTime
+    updatedAt: DateTime
+    deletedAt: DateTime
+}
