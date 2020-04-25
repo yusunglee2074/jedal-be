@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --exec ts-node -- ./src/index.ts",
-    "start": "NODE_ENV=production nodemon --exec ts-node -- ./src/index.ts",
+    "start": "NODE_ENV=production npx nodemon --exec npx ts-node -- ./src/index.ts",
     "deploy": "pm2 delete jedal-server && pm2 start yarn --interpreter bash --name jedal-server -- start",
     "test": "echo Have To TEST!",
     "generate": "graphql-codegen --config codegen.yml"
