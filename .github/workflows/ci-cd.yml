@@ -37,7 +37,7 @@ jobs:
       with:
         args: >-
           deploy push
-          --application-name jedal-api
+          --application-name  api-server
           --description "This is a revision for the staging-api-server"
           --ignore-hidden-files
           --s3-location s3://jedal-be/staging-api-server.zip
@@ -51,7 +51,7 @@ jobs:
       with:
         args: >-
           deploy create-deployment
-          --application-name jedal-api
+          --application-name api-server
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name staging
           --file-exists-behavior OVERWRITE
