@@ -31,27 +31,27 @@ jobs:
     - name: AWS Deploy push
       uses: ItsKarma/aws-cli@v1.70.0
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
         AWS_DEFAULT_REGION: "ap-northeast-2"
       with:
         args: >-
           deploy push
-          --application-name api-server
-          --description "This is a revision for the api-server"
+          --application-name jedal-api
+          --description "This is a revision for the staging-api-server"
           --ignore-hidden-files
           --s3-location s3://jedal-be/staging-api-server.zip
           --source .
     - name: AWS Create Deploy
       uses: ItsKarma/aws-cli@v1.70.0
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_STAGING }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_STAGING }}
         AWS_DEFAULT_REGION: "ap-northeast-2"
       with:
         args: >-
           deploy create-deployment
-          --application-name api-server
+          --application-name jedal-api
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name staging
           --file-exists-behavior OVERWRITE

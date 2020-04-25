@@ -4,12 +4,14 @@ import { Resolvers } from '../generated/graphql';
 
 const resolver: Resolvers = {
   Query: {
+    // @ts-ignore
     job(_root, args) {
       const manager = getManager();
       return manager.findOne(Job, args._id);
     },
   },
   Mutation: {
+    // @ts-ignore
     async createJob(_root, args) {
       const { title, description } = args;
       const manager = getManager();
