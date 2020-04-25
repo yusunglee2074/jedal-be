@@ -11,6 +11,7 @@ const PORT = 3000;
       if (err) {
         console.log("Can't launch express server");
       } else {
+        console.log('success');
         console.log(`App listening at http://localhost:${PORT}`);
       }
     });
