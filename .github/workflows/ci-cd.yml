@@ -37,10 +37,10 @@ jobs:
       with:
         args: >-
           deploy push
-          --application-name  api-server
+          --application-name api-server
           --description "This is a revision for the staging-api-server"
           --ignore-hidden-files
-          --s3-location s3://jedal-be/staging-api-server.zip
+          --s3-location s3://jedal-be-stage/staging-api-server.zip
           --source .
     - name: AWS Create Deploy
       uses: ItsKarma/aws-cli@v1.70.0
@@ -55,7 +55,7 @@ jobs:
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name staging
           --file-exists-behavior OVERWRITE
-          --s3-location bucket=jedal-be,key=staging-api-server.zip,bundleType=zip
+          --s3-location bucket=jedal-be-stage,key=staging-api-server.zip,bundleType=zip
 
   production-deploy:
     runs-on: ubuntu-latest
