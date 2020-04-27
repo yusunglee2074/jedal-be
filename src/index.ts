@@ -4,7 +4,7 @@ const PORT = 3000;
 
 // DB initialize
 
-(async () => {
+(async (): Promise<void> => {
   try {
     await App.connectDatabase();
     App.express.listen(PORT, (err) => {
