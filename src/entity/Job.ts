@@ -1,4 +1,4 @@
-import { ObjectID, ObjectIdColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { ObjectID, ObjectIdColumn, Entity, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { GraphQLObjectType, GraphQLID, GraphQLString } from 'graphql';
 import { GraphQLDateTime } from 'graphql-iso-date';
 
@@ -46,3 +46,4 @@ export const JobType = new GraphQLObjectType({
     },
   },
 });
+

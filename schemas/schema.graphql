@@ -1,9 +1,0 @@
-#import Job from './job.graphql'
-
-type Query {
- job(_id: String!): Job
-}
-
-type Mutation {
- createJob(title: String!, description: String!): Job
-}
