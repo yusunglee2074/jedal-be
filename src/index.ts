@@ -1,6 +1,14 @@
 import App from './App';
+import * as env from 'dotenv';
+import path = require('path');
 
-const PORT = 3000;
+if (process.env.NODE_ENV === 'production') {
+  env.config({ path: path.resolve(__dirname, '../.env.production') });
+} else {
+  env.config({ path: path.resolve(__dirname, '../.env.development') });
+}
+
+const PORT = process.env.PORT;
 
 // DB initialize
 

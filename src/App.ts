@@ -16,12 +16,11 @@ class App {
   }
 
   async connectDatabase() {
-    // TODO: 하드코딩된 DB 패스워드 빼야함.
     await createConnection({
       type: 'mongodb',
-      url: 'mongodb+srv://jedal:wpcjfekffur@jedal-xyvoz.gcp.mongodb.net/test?retryWrites=true&w=majority',
+      url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@jedal-xyvoz.gcp.mongodb.net/test?retryWrites=true&w=majority`,
       useNewUrlParser: true,
-      database: 'dev',
+      database: process.env.DB_NAME,
       synchronize: true,
       entities: [__dirname + '/entity/*.{js,ts}'],
       useUnifiedTopology: true,
@@ -40,4 +39,4 @@ class App {
   private catchErrors(): void {}
 }
 
-export default new App()
+export default new App();
