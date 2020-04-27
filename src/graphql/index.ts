@@ -10,6 +10,6 @@ router.post(
     schema,
     graphiql: false,
   })
-);
+)
 
 export default router;
