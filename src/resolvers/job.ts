@@ -5,7 +5,7 @@ import { Resolvers } from '../generated/graphql';
 const resolver: Resolvers = {
   Query: {
     // @ts-ignore
-    job(_root, args) {
+    job2(_root, args) {
       const manager = getManager();
       return manager.findOne(Job, args._id);
     },

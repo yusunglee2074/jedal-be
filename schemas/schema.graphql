@@ -1,7 +1,7 @@
 #import Job from './job.graphql'
 
 type Query {
- job(_id: String!): Job
+ job2(_id: String!): Job
 }
 
 type Mutation {
