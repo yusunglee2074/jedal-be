@@ -40,4 +40,4 @@ class App {
   private catchErrors(): void {}
 }
 
-export default new App();
+export default new App()
