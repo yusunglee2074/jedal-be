@@ -2,7 +2,7 @@ import * as graphqlHTTP from 'express-graphql';
 import { Router } from 'express';
 import schema from './schema';
 
-const router: Router = Router()
+const router: Router = Router();
 
 router.post(
   '/',
