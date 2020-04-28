@@ -39,7 +39,6 @@ jobs:
           deploy push
           --application-name api-server
           --description "This is a revision for the staging-api-server"
-          --ignore-hidden-files
           --s3-location s3://jedal-be-stage/staging-api-server.zip
           --source .
     - name: AWS Create Deploy
@@ -80,7 +79,6 @@ jobs:
           deploy push
           --application-name api-server
           --description "This is a revision for the api-server"
-          --ignore-hidden-files
           --s3-location s3://jedal-be/production-api-server.zip
           --source .
     - name: AWS Create Deploy
