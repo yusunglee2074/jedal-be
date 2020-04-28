@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
   env.config({ path: path.join(__dirname, '../.env.development') });
 }
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
 
 // DB initialize
 
