@@ -1,6 +1,6 @@
 import App from './App';
 import * as env from 'dotenv';
-import path = require('path');
+import * as path from 'path';
 
 if (process.env.NODE_ENV === 'production') {
   env.config({ path: path.resolve(__dirname, '../.env.production') });

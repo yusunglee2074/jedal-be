@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import expressPlayground from 'graphql-playground-middleware-express';
-import graphql from './graphql';
+import router from './router';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 
@@ -33,7 +33,7 @@ class App {
   }
 
   private initGraphQL(): void {
-    this.express.use('/graphql', graphql);
+    this.express.use('/graphql', router);
   }
 
   private catchErrors(): void {}
