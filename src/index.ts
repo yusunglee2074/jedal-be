@@ -3,9 +3,9 @@ import * as env from 'dotenv';
 import * as path from 'path';
 
 if (process.env.NODE_ENV === 'production') {
-  env.config({ path: path.resolve(__dirname, '../.env.production') });
+  env.config({ path: path.join(__dirname, '../.env.production') });
 } else {
-  env.config({ path: path.resolve(__dirname, '../.env.development') });
+  env.config({ path: path.join(__dirname, '../.env.development') });
 }
 
 const PORT = process.env.PORT;
