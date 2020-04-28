@@ -9,16 +9,19 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  ObjectId: any;
 };
+
+
 
 export type Query = {
    __typename?: 'Query';
-  job: Job;
+  job?: Maybe<Job>;
 };
 
 
 export type QueryJobArgs = {
-  _id: Scalars['String'];
+  _id: Scalars['ObjectId'];
 };
 
 export type Mutation = {
@@ -34,7 +37,7 @@ export type MutationCreateJobArgs = {
 
 export type Job = {
    __typename?: 'Job';
-  _id: Scalars['String'];
+  _id: Scalars['ObjectId'];
   createdAt?: Maybe<Scalars['DateTime']>;
   deletedAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
@@ -43,7 +46,6 @@ export type Job = {
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
-
 
 
 
@@ -120,24 +122,34 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>,
+  ObjectId: ResolverTypeWrapper<Scalars['ObjectId']>,
   Query: ResolverTypeWrapper<{}>,
   Mutation: ResolverTypeWrapper<{}>,
   Job: ResolverTypeWrapper<Job>,
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']>,
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   String: Scalars['String'],
   Boolean: Scalars['Boolean'],
+  DateTime: Scalars['DateTime'],
+  ObjectId: Scalars['ObjectId'],
   Query: {},
   Mutation: {},
   Job: Job,
-  DateTime: Scalars['DateTime'],
 };
 
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime'
+}
+
+export interface ObjectIdScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ObjectId'], any> {
+  name: 'ObjectId'
+}
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  job?: Resolver<ResolversTypes['Job'], ParentType, ContextType, RequireFields<QueryJobArgs, '_id'>>,
+  job?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<QueryJobArgs, '_id'>>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -145,7 +157,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type JobResolvers<ContextType = any, ParentType extends ResolversParentTypes['Job'] = ResolversParentTypes['Job']> = {
-  _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  _id?: Resolver<ResolversTypes['ObjectId'], ParentType, ContextType>,
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>,
   deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>,
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
@@ -156,15 +168,12 @@ export type JobResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
-export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
-  name: 'DateTime'
-}
-
 export type Resolvers<ContextType = any> = {
+  DateTime?: GraphQLScalarType,
+  ObjectId?: GraphQLScalarType,
   Query?: QueryResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
   Job?: JobResolvers<ContextType>,
-  DateTime?: GraphQLScalarType,
 };
 
 

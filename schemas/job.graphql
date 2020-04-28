@@ -1,7 +1,5 @@
-scalar DateTime
-
 type Job {
-    _id: String!
+    _id: ObjectId!
     title: String
     description: String
     thumbURL: String
