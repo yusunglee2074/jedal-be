@@ -1,6 +1,4 @@
-import { ObjectID, ObjectIdColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { GraphQLObjectType, GraphQLID, GraphQLString } from 'graphql';
-import { GraphQLDateTime } from 'graphql-iso-date';
+import { ObjectID, ObjectIdColumn, Entity, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Job {
@@ -24,25 +22,3 @@ export class Job {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt?: Date;
 }
-
-export const JobType = new GraphQLObjectType({
-  name: 'Job',
-  fields: {
-    _id: { type: GraphQLID },
-    title: { type: GraphQLString },
-    slug: { type: GraphQLString },
-    description: { type: GraphQLString },
-    createdAt: {
-      type: GraphQLDateTime,
-      resolve(parent) {
-        return new Date(parent.createdAt);
-      },
-    },
-    updatedAt: {
-      type: GraphQLDateTime,
-      resolve(parent) {
-        return new Date(parent.updatedAt);
-      },
-    },
-  },
-});

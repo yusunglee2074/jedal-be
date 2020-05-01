@@ -6,14 +6,17 @@
   "author": "jedal",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --exec ts-node -- ./src/index.ts",
-    "start": "NODE_ENV=production npx nodemon --exec npx ts-node -- ./src/index.ts",
+    "dev": "nodemon --exec NODE_ENV=development npx ts-node -- ./src/index.ts",
+    "start": "NODE_ENV=production npx ts-node -- ./src/index.ts",
+    "start:staging": "NODE_ENV=development npx ts-node -- ./src/index.ts",
     "deploy": "pm2 delete jedal-server && pm2 start --name jedal-server npm -- start",
+    "deploy:staging": "pm2 start --name jedal-server npm -- run start:staging",
     "test": "echo Have To TEST!",
     "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^15.0.0",
