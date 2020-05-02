@@ -1,9 +1,14 @@
 import { FieldResolver, Query, Resolver, Root } from 'type-graphql';
 import axios from 'axios';
 import { DetailRecipe } from '../scheme/DetailRecipe';
+import { Ingredient } from '../scheme/Ingredient';
 
 @Resolver(DetailRecipe)
 export default class DetailRecipeResolver {
+  @FieldResolver()
+  _id(@Root() ingredient: Ingredient) {
+    return ingredient['RECIPE_ID'] + '_' + ingredient['COOKING_NO'];
+  }
   @FieldResolver()
   recipeId(@Root() detailRecipe: DetailRecipe) {
     return detailRecipe['RECIPE_ID'];
@@ -26,7 +31,6 @@ export default class DetailRecipeResolver {
     return detailRecipe['STEP_TIP'];
   }
 
-
   @Query(() => [DetailRecipe])
   async detailRecipes() {
     try {
@@ -38,7 +42,7 @@ export default class DetailRecipeResolver {
       return data;
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
-      console.log('에러발생')
+      console.log('에러발생');
     }
   }
 }
