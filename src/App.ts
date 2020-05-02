@@ -1,11 +1,10 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import expressPlayground from 'graphql-playground-middleware-express';
-import graphql from './graphql';
 import { createConnection } from 'typeorm';
 import * as graphqlHTTP from 'express-graphql';
 import { buildSchemaSync } from 'type-graphql';
-import { SeasonIngredientResolver } from './resolver/SeasonIngredientResolver';
+import resolvers from './resolver';
 
 class App {
   public express: express.Application;
@@ -39,7 +38,7 @@ class App {
     this.express.use(
       '/graphql',
       graphqlHTTP({
-        schema: buildSchemaSync({ resolvers: [SeasonIngredientResolver] }),
+        schema: buildSchemaSync({ resolvers }),
         graphiql: false,
       })
     );
