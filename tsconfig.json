@@ -4,6 +4,7 @@
     "module": "commonjs",
     "lib": ["es2016", "esnext.asynciterable"],
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+
   }
 }

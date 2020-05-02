@@ -1,0 +1,11 @@
+#import Job from './job.graphql'
+scalar DateTime
+scalar ObjectId
+
+type Query {
+ job(_id: ObjectId!): Job
+}
+
+type Mutation {
+ createJob(title: String!, description: String!): Job
+}
