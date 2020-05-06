@@ -16,14 +16,14 @@ class App {
     this.catchErrors();
   }
 
-  async connectDatabase() {
+  async connectDatabase(): Promise<void> {
     await createConnection({
       type: 'mongodb',
       url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@jedal-xyvoz.gcp.mongodb.net/test?retryWrites=true&w=majority`,
       useNewUrlParser: true,
       database: process.env.DB_NAME,
       synchronize: true,
-      entities: [__dirname + '/entity/*.{js,ts}'],
+      entities: [__dirname + '/scheme/*.{js,ts}'],
       useUnifiedTopology: true,
     });
   }
