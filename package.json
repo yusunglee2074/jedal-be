@@ -11,7 +11,7 @@
     "start:staging": "NODE_ENV=development npx ts-node -- ./src/index.ts",
     "deploy": "pm2 delete jedal-server && pm2 start --name jedal-server npm -- start",
     "deploy:staging": "pm2 start --name jedal-server npm -- run start:staging",
-    "test": "echo Have To TEST!",
+    "test": "echo Have To TEST!"
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
