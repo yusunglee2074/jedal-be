@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import App from './App';
 import * as env from 'dotenv';
 import * as path from 'path';
@@ -12,7 +13,7 @@ const PORT = process.env.PORT;
 
 // DB initialize
 
-(async () => {
+(async (): Promise<void> => {
   try {
     await App.connectDatabase();
     App.express.listen(PORT, (err) => {
