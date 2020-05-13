@@ -13,10 +13,6 @@ export class TrimmedRecipe extends BaseEntity {
 
   @Field()
   @Column()
-  season: string; // 해당 계절
-
-  @Field()
-  @Column()
   recipeId: number; // 레시피 ID
 
   @Field(() => Recipe)
@@ -41,7 +37,7 @@ export class TrimmedRecipe extends BaseEntity {
 
   @Field()
   @Column()
-  cookingTime: number; // 요리시간
+  cookingTime: string; // 요리시간
 
   @Field()
   @Column()

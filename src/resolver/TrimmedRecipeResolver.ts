@@ -8,25 +8,30 @@ import { getManager } from 'typeorm';
 @InputType({ description: 'New recipe data' })
 class AddTrimmedRecipeInput implements Partial<TrimmedRecipe> {
   @Field({ nullable: true })
-  _id: string;
-  @Field({ nullable: true })
-  season: string;
-  @Field({ nullable: true })
+  _id: string; // 아이디
+
+  @Field({ nullable: false })
   recipeName: string; // 레시피명
+
+  @Field({ nullable: true })
+  recipeId: number; // 레시피아이디
 
   @Field({ nullable: true })
   seasonIngredientId: number; // 재철 식재료 ID
 
   @Field({ nullable: true })
+  seasonIngredientName: string; // 재철 식재료 이름
+
+  @Field({ nullable: false })
   seasonMonth: number; // 재철 식재료 월
 
-  @Field({ nullable: true })
+  @Field({ nullable: false })
   cookingLevel: string; // 요리난이도
 
-  @Field({ nullable: true })
-  cookingTime: number; // 요리시간
+  @Field({ nullable: false })
+  cookingTime: string; // 요리시간
 
-  @Field({ nullable: true })
+  @Field({ nullable: false })
   category: string; // 음식분류명
 
   @Field({ nullable: true })

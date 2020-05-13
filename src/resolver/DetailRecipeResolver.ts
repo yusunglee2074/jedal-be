@@ -6,10 +6,6 @@ import { Ingredient } from '../scheme/Ingredient';
 @Resolver(DetailRecipe)
 export default class DetailRecipeResolver {
   @FieldResolver()
-  _id(@Root() ingredient: Ingredient) {
-    return ingredient['RECIPE_ID'] + '_' + ingredient['COOKING_NO'];
-  }
-  @FieldResolver()
   recipeId(@Root() detailRecipe: DetailRecipe) {
     return detailRecipe['RECIPE_ID'];
   }

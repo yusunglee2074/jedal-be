@@ -52,6 +52,20 @@ export default class RecipeResolver {
   imgUrl(@Root() recipe: Recipe) {
     return recipe['IMG_URL'];
   }
+  @FieldResolver()
+  async detailRecipes(@Root() recipe: Recipe) {
+    try {
+      // TODO 하드코딩된 url 분리
+      const items = await axios.get(
+        'http://211.237.50.150:7080/openapi/356177e65657d63ea1189bb06144ce2d8035cd8b1434845e92abd7b7afe18b52/json/Grid_20150827000000000228_1/1/10000'
+      );
+      console.log(items.data['Grid_20150827000000000228_1'].row.length)
+      return items.data['Grid_20150827000000000228_1'].row.filter((el) => el.recipeId === recipe._id);
+    } catch (e) {
+      // TODO 에러 처리 모듈 만들기
+      console.log('에러발생');
+    }
+  }
 
   @Query(() => [Recipe])
   async recipes() {
@@ -64,7 +78,7 @@ export default class RecipeResolver {
       return data;
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
-      console.log('에러발생')
+      console.log('에러발생');
     }
   }
 }
