@@ -25,6 +25,7 @@
     "graphql-iso-date": "^3.6.1",
     "graphql-playground-middleware-express": "^1.7.12",
     "mongodb": "^3.5.5",
+    "node-cache": "^5.1.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^0.17.6",
     "typeorm": "^0.2.24"
