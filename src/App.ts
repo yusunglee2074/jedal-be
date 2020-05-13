@@ -5,7 +5,9 @@ import { createConnection } from 'typeorm';
 import * as graphqlHTTP from 'express-graphql';
 import { buildSchemaSync } from 'type-graphql';
 import resolvers from './resolver';
+import { initCacheData } from './cache';
 
+// TODO: 클래스 말고 그냥 펑션으로 작성
 class App {
   public express: express.Application;
 
@@ -14,6 +16,7 @@ class App {
     this.setMiddleware();
     this.initGraphQL();
     this.catchErrors();
+    initCacheData();
   }
 
   async connectDatabase(): Promise<void> {
@@ -31,6 +34,7 @@ class App {
   private setMiddleware(): void {
     this.express.get('/', expressPlayground({ endpoint: '/graphql' }));
     this.express.use(cors());
+
   }
 
   private initGraphQL(): void {
@@ -42,6 +46,7 @@ class App {
       })
     );
   }
+
 
   private catchErrors(): void {}
 }
