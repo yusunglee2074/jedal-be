@@ -1,6 +1,6 @@
-import { FieldResolver, Query, Resolver, Root } from 'type-graphql';
-import axios from 'axios';
+import { Arg, FieldResolver, Query, Resolver, Root } from 'type-graphql';
 import { Recipe } from '../scheme/Recipe';
+import { openApiCache } from '../cache';
 
 @Resolver(Recipe)
 export default class RecipeResolver {
@@ -53,28 +53,42 @@ export default class RecipeResolver {
     return recipe['IMG_URL'];
   }
   @FieldResolver()
-  async detailRecipes(@Root() recipe: Recipe) {
+  async detailRecipes(@Root() recipe) {
     try {
-      // TODO 하드코딩된 url 분리
-      const items = await axios.get(
-        'http://211.237.50.150:7080/openapi/356177e65657d63ea1189bb06144ce2d8035cd8b1434845e92abd7b7afe18b52/json/Grid_20150827000000000228_1/1/10000'
-      );
-      console.log(items.data['Grid_20150827000000000228_1'].row.length)
-      return items.data['Grid_20150827000000000228_1'].row.filter((el) => el.recipeId === recipe._id);
+      const data: any[] = openApiCache.get('detailRecipes');
+      return data.filter((el) => {
+        return el.RECIPE_ID == recipe.RECIPE_ID;
+      });
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
+      console.log(e);
+      console.log('에러발생');
+    }
+  }
+  @FieldResolver()
+  async ingredients(@Root() recipe) {
+    try {
+      const data: any[] = openApiCache.get('ingredients');
+      return data.filter((el) => {
+        return el.RECIPE_ID == recipe.RECIPE_ID;
+      });
+    } catch (e) {
+      // TODO 에러 처리 모듈 만들기
+      console.log(e);
       console.log('에러발생');
     }
   }
 
   @Query(() => [Recipe])
-  async recipes() {
+  async recipes(@Arg('_id', { nullable: true }) _id?: string, @Arg('name', { nullable: true }) name?: string) {
     try {
-      // TODO 하드코딩된 url 분리
-      const items = await axios.get(
-        'http://211.237.50.150:7080/openapi/356177e65657d63ea1189bb06144ce2d8035cd8b1434845e92abd7b7afe18b52/json/Grid_20150827000000000226_1/1/1000'
-      );
-      const data = items.data['Grid_20150827000000000226_1'].row;
+      // TODO: 페이지네이션
+      const data: any[] = openApiCache.get('recipes');
+      if (_id) {
+        return data.filter(el => el.RECIPE_ID === _id);
+      } else if (name) {
+        return data.filter(el => el.RECIPE_NM_KO.indexOf(name) > -1);
+      }
       return data;
     } catch (e) {
       // TODO 에러 처리 모듈 만들기

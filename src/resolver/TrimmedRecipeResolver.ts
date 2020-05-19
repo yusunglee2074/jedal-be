@@ -2,7 +2,8 @@ import { Arg, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root }
 import axios from 'axios';
 import { Recipe } from '../scheme/Recipe';
 import { TrimmedRecipe } from '../scheme/TrimmedRecipe';
-import { getManager } from 'typeorm';
+import { getManager, Like } from 'typeorm';
+import { openApiCache } from '../cache';
 
 // TODO InputType 파일 분리 해야할지 말아야할지 결정해야함
 @InputType({ description: 'New recipe data' })
@@ -43,18 +44,10 @@ export default class TrimmedRecipeResolver {
   private manager = getManager();
 
   @FieldResolver(() => Recipe)
-  async recipeName(@Root() trimmedRecipe: TrimmedRecipe) {
+  async recipeId(@Root() trimmedRecipe: TrimmedRecipe) {
     try {
-      const item = await axios.get(
-        'http://211.237.50.150:7080/openapi/356177e65657d63ea1189bb06144ce2d8035cd8b1434845e92abd7b7afe18b52/json/Grid_20150827000000000226_1/1/1',
-        {
-          params: {
-            RECIPE_NM_KO: trimmedRecipe.recipeName,
-          },
-        }
-      );
-      const [data] = item.data['Grid_20150827000000000226_1'].row;
-      return data;
+      const recipes: any[] = openApiCache.get('recipes');
+      return recipes.filter((el) => el.RECIPE_ID == trimmedRecipe.recipeId)[0];
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log('에러발생');
@@ -62,9 +55,17 @@ export default class TrimmedRecipeResolver {
   }
 
   @Query(() => [TrimmedRecipe])
-  async trimmedRecipes() {
+  async trimmedRecipes(
+    @Arg('_id', { nullable: true }) _id?: string,
+    @Arg('name', { nullable: true }) name?: string
+  ) {
     try {
-      return await this.manager.find(TrimmedRecipe);
+      // TODO trimmed Recipe 다시 해야함 청명님 정제 데이터가 듀플리케이션되어있음.
+      return await this.manager.find(TrimmedRecipe, {
+        where: {
+          recipeName: { $regex: new RegExp(`${name}`) },
+        },
+      });
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log('에러발생');
