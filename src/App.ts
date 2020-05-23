@@ -19,7 +19,7 @@ class App {
     initCacheData();
   }
 
-  async connectDatabase(): Promise<void> {
+  static async connectDatabase(): Promise<void> {
     await createConnection({
       type: 'mongodb',
       url: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@jedal-xyvoz.gcp.mongodb.net/test?retryWrites=true&w=majority`,
@@ -51,4 +51,4 @@ class App {
   private catchErrors(): void {}
 }
 
-export default new App();
+export default App;
