@@ -5,26 +5,6 @@ import { openApiCache } from '../cache';
 
 @Resolver(Ingredient)
 export default class IngredientResolver {
-  @FieldResolver()
-  recipeId(@Root() ingredient: Ingredient) {
-    return ingredient['RECIPE_ID'];
-  }
-  @FieldResolver()
-  step(@Root() ingredient: Ingredient) {
-    return ingredient['IRDNT_SN'];
-  }
-  @FieldResolver()
-  name(@Root() ingredient: Ingredient) {
-    return ingredient['IRDNT_NM'];
-  }
-  @FieldResolver()
-  amount(@Root() ingredient: Ingredient) {
-    return ingredient['IRDNT_CPCTY'];
-  }
-  @FieldResolver()
-  type(@Root() ingredient: Ingredient) {
-    return ingredient['IRDNT_TY_NM'];
-  }
 
   @Query(() => [Ingredient])
   async ingredients() {

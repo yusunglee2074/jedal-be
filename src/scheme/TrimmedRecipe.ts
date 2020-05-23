@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, FieldResolver, ID, Int, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, ObjectIdColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Recipe } from './Recipe';
 import { SeasonIngredient } from './SeasonIngredient';
@@ -15,21 +15,13 @@ export class TrimmedRecipe extends BaseEntity {
   @Column()
   recipeId: number; // 레시피 ID
 
-  @Field(() => Recipe)
+  @Field()
   @Column()
   recipeName: string; // 레시피명
 
-  @Field(() => SeasonIngredient)
+  @Field(() => [SeasonIngredient])
   @Column()
-  seasonIngredientId: number; // 재철 식재료 ID
-
-  @Field()
-  @Column()
-  seasonIngredientName: string; // 재철 식재료 이름
-
-  @Field()
-  @Column()
-  seasonMonth: number; // 재철 식재료 월
+  seasonIngredientIds: number[]; // 재철 식재료들 아이디
 
   @Field()
   @Column()

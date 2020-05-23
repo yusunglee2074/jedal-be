@@ -1,9 +1,9 @@
-import { Arg, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql';
-import axios from 'axios';
+import { Arg, Field, FieldResolver, InputType, Int, Mutation, Query, Resolver, Root } from 'type-graphql';
 import { Recipe } from '../scheme/Recipe';
 import { TrimmedRecipe } from '../scheme/TrimmedRecipe';
-import { getManager, Like } from 'typeorm';
+import { getManager } from 'typeorm';
 import { openApiCache } from '../cache';
+import { SeasonIngredient } from '../scheme/SeasonIngredient';
 
 // TODO InputType 파일 분리 해야할지 말아야할지 결정해야함
 @InputType({ description: 'New recipe data' })
@@ -17,14 +17,8 @@ class AddTrimmedRecipeInput implements Partial<TrimmedRecipe> {
   @Field({ nullable: true })
   recipeId: number; // 레시피아이디
 
-  @Field({ nullable: true })
-  seasonIngredientId: number; // 재철 식재료 ID
-
-  @Field({ nullable: true })
-  seasonIngredientName: string; // 재철 식재료 이름
-
-  @Field({ nullable: false })
-  seasonMonth: number; // 재철 식재료 월
+  @Field(() => [Int], { nullable: true })
+  seasonIngredientIds: number[]; // 재철 식재료 ID 리스트 레시피에 여러개의 재철 식재료가 들어감
 
   @Field({ nullable: false })
   cookingLevel: string; // 요리난이도
@@ -44,13 +38,24 @@ export default class TrimmedRecipeResolver {
   private manager = getManager();
 
   @FieldResolver(() => Recipe)
-  async recipeId(@Root() trimmedRecipe: TrimmedRecipe) {
+  async recipe(@Root() trimmedRecipe: TrimmedRecipe) {
     try {
       const recipes: any[] = openApiCache.get('recipes');
-      return recipes.filter((el) => el.RECIPE_ID == trimmedRecipe.recipeId)[0];
+      return recipes.filter((el) => el.recipeId == trimmedRecipe.recipeId)[0];
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log('에러발생');
+    }
+  }
+
+  @FieldResolver(() => [SeasonIngredient])
+  async seasonIngredients(@Root() trimmedRecipe: TrimmedRecipe) {
+    try {
+      const seasonIngredients: SeasonIngredient[] = openApiCache.get('seasonIngredients');
+      return seasonIngredients.filter((el) => trimmedRecipe.seasonIngredientIds.indexOf(Number(el._id)) > -1);
+    } catch (e) {
+      // TODO 에러 처리 모듈 만들기
+      console.log(e, '에러발생');
     }
   }
 
@@ -60,12 +65,15 @@ export default class TrimmedRecipeResolver {
     @Arg('name', { nullable: true }) name?: string
   ) {
     try {
-      // TODO trimmed Recipe 다시 해야함 청명님 정제 데이터가 듀플리케이션되어있음.
-      return await this.manager.find(TrimmedRecipe, {
-        where: {
-          recipeName: { $regex: new RegExp(`${name}`) },
-        },
-      });
+      // TODO: Entity Manager and Repository TypeORM 둘 차이 체크해야함
+      const where: any = {};
+      if (name) {
+        where.recipeName = { $regex: new RegExp(`${name}`) };
+      }
+      if (_id) {
+        where._id = _id;
+      }
+      return await this.manager.find(TrimmedRecipe, { where });
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log('에러발생');
@@ -81,7 +89,6 @@ export default class TrimmedRecipeResolver {
   @Mutation(() => TrimmedRecipe)
   async updateTrimmedRecipe(@Arg('data') newData: AddTrimmedRecipeInput): Promise<TrimmedRecipe> {
     try {
-      // TODO 코드가 깔끔하지 못함
       const newDataWithoutId = { ...newData };
       delete newDataWithoutId._id;
 
