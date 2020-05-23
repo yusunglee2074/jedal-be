@@ -1,6 +1,6 @@
 // 4가지의 OpenAPI 데이터를 쳐다보고 청명님의 정의한대로 조합해서
 // TrimmedRecipe 컬렉션에 집어 넣어주는 스크립트
-// 해당 스크립트를 일주일에 한번 정도 돌려주면 OpenAPI 데이터가 업데이트 되더라도 DB는 최신화된다.
+// TODO: CRON 적용 해당 스크립트를 일주일에 한번 정도 돌려주면 OpenAPI 데이터가 업데이트 되더라도 DB는 최신화된다.
 
 import { openApiCache } from '../cache';
 import { TrimmedRecipe } from '../scheme/TrimmedRecipe';
