@@ -2,7 +2,6 @@ import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType({ description: "정부 OPEN API 재철재료" })
 export class SeasonIngredient{
-
   @Field((type) => ID)
   _id: string;// IDNTFC_NO 식품번호
   @Field()
