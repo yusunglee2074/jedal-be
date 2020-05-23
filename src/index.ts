@@ -16,7 +16,8 @@ const PORT = process.env.PORT;
 (async (): Promise<void> => {
   try {
     await App.connectDatabase();
-    App.express.listen(PORT, (err) => {
+
+    new App().express.listen(PORT, (err) => {
       if (err) {
         console.log("Can't launch express server");
       } else {
