@@ -51,23 +51,23 @@ const convertCookingTime = (time) => {
   const seasonIngredientsObj = {};
   for (let i = 0; i < seasonIngredients.length; i++) {
     const item = seasonIngredients[i];
-    seasonIngredientsObj[item.PRDLST_NM] = item;
+    seasonIngredientsObj[item.name] = item;
   }
 
   const recipesObj = {};
   for (let i = 0; i < recipes.length; i++) {
     const item = recipes[i];
-    recipesObj[item.RECIPE_ID] = item;
+    recipesObj[item.recipeId] = item;
   }
   const trimmedRecipes = {};
 
   for (let i = 0; i < ingredients.length; i++) {
     const item = ingredients[i];
-    const name = item.IRDNT_NM;
-    const recipeId = item.RECIPE_ID;
+    const name = item.name;
+    const recipeId = item.recipeId;
 
     if (seasonIngredientsObj[name]) {
-      const seasonIngredientId = seasonIngredientsObj[name].IDNTFC_NO;
+      const seasonIngredientId = seasonIngredientsObj[name]._id;
 
       const recipe = recipesObj[recipeId];
       if (!recipe) continue;
@@ -88,7 +88,7 @@ const convertCookingTime = (time) => {
         cookingLevel: convertCookingLevel(level),
         cookingTime: convertCookingTime(time),
         category: convertCategory(category),
-        recipeName: recipe.RECIPE_NM_KO,
+        recipeName: recipe.name,
         seasonIngredientIds: [...trimmedRecipes[recipeId].seasonIngredientIds, seasonIngredientId],
       };
     }
@@ -98,8 +98,8 @@ const convertCookingTime = (time) => {
   for (let i = 0; i < Object.keys(trimmedRecipes).length; i++) {
     const recipeId = Object.keys(trimmedRecipes)[i];
     const data = trimmedRecipes[recipeId];
-    const alreadyAddedRecipe = await manager.find(TrimmedRecipe, { where: { recipeId } });
-    if (alreadyAddedRecipe.length) continue;
+    const alreadyAddedRecipe = await manager.find(TrimmedRecipe, { where: { recipeId: Number(recipeId) } });
+    if (alreadyAddedRecipe.length > 0) continue;
 
     const recipe = manager.create(TrimmedRecipe, data);
     await recipe.save();

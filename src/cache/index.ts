@@ -40,7 +40,6 @@ const offlineData = fs.readFileSync(__dirname + '/openApiData.txt', 'utf8');
 const parsedOfflineData = JSON.parse(offlineData);
 
 const isDataFresh = (): boolean => {
-  console.log(parsedOfflineData.createdAt);
   if (!parsedOfflineData.createdAt) return false;
   const yesterday = new Date();
   yesterday.setDate(new Date().getDate() - 1);

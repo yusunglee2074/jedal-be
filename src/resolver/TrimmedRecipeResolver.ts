@@ -1,7 +1,19 @@
-import { Arg, Field, FieldResolver, InputType, Int, Mutation, Query, Resolver, Root } from 'type-graphql';
+import {
+  Arg,
+  Args,
+  ArgsType,
+  Field,
+  FieldResolver,
+  InputType,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+  Root,
+} from 'type-graphql';
 import { Recipe } from '../scheme/Recipe';
 import { TrimmedRecipe } from '../scheme/TrimmedRecipe';
-import { getManager } from 'typeorm';
+import { getManager, In } from 'typeorm';
 import { openApiCache } from '../cache';
 import { SeasonIngredient } from '../scheme/SeasonIngredient';
 
@@ -33,6 +45,34 @@ class AddTrimmedRecipeInput implements Partial<TrimmedRecipe> {
   ingredientCategory: string; // 재료분류
 }
 
+@ArgsType()
+class TrimmedRecipesArgs {
+  @Field({ nullable: true })
+  level?: string;
+  @Field({ nullable: true })
+  _id?: string;
+  @Field({ nullable: true })
+  name?: string;
+  @Field(() => [String], { nullable: true })
+  categories?: string[];
+  @Field(() => [String], { nullable: true })
+  hateIngredients?: string[];
+
+  // helpers - index calculations
+}
+
+const getMonthsFromSeason = (season) => {
+  if (season === '봄') {
+    return ['3월', '4월', '5월'];
+  } else if (season === '여름') {
+    return ['6월', '7월', '8월'];
+  } else if (season === '가을') {
+    return ['9월', '10월', '11월'];
+  } else if (season === '겨울') {
+    return ['12월', '1월', '2월'];
+  }
+};
+
 @Resolver(TrimmedRecipe)
 export default class TrimmedRecipeResolver {
   private manager = getManager();
@@ -49,10 +89,19 @@ export default class TrimmedRecipeResolver {
   }
 
   @FieldResolver(() => [SeasonIngredient])
-  async seasonIngredients(@Root() trimmedRecipe: TrimmedRecipe) {
+  async seasonIngredients(
+    @Root() trimmedRecipe: TrimmedRecipe,
+    @Arg('season', { nullable: true }) season?: string
+  ) {
     try {
       const seasonIngredients: SeasonIngredient[] = openApiCache.get('seasonIngredients');
-      return seasonIngredients.filter((el) => trimmedRecipe.seasonIngredientIds.indexOf(Number(el._id)) > -1);
+      if (season) {
+        return seasonIngredients
+          .filter((el) => trimmedRecipe.seasonIngredientIds.indexOf(Number(el._id)) > -1)
+          .filter((el) => getMonthsFromSeason(season).indexOf(el.month) > -1);
+      } else {
+        return seasonIngredients.filter((el) => trimmedRecipe.seasonIngredientIds.indexOf(Number(el._id)) > -1);
+      }
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log(e, '에러발생');
@@ -60,10 +109,8 @@ export default class TrimmedRecipeResolver {
   }
 
   @Query(() => [TrimmedRecipe])
-  async trimmedRecipes(
-    @Arg('_id', { nullable: true }) _id?: string,
-    @Arg('name', { nullable: true }) name?: string
-  ) {
+  async trimmedRecipes(@Args() args?: TrimmedRecipesArgs) {
+    const { level, _id, name, categories, hateIngredients } = args;
     try {
       // TODO: Entity Manager and Repository TypeORM 둘 차이 체크해야함
       const where: any = {};
@@ -72,6 +119,15 @@ export default class TrimmedRecipeResolver {
       }
       if (_id) {
         where._id = _id;
+      }
+      if (level) {
+        where.cookingLevel = level;
+      }
+      if (categories) {
+        where.category = { $in: categories };
+      }
+      if (hateIngredients) {
+        where.ingredientCategory = { $not: { $in: hateIngredients } };
       }
       return await this.manager.find(TrimmedRecipe, { where });
     } catch (e) {
