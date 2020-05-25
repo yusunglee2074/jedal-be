@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 import { DetailRecipe } from './DetailRecipe';
+import { Ingredient } from './Ingredient';
 
 @ObjectType({ description: '정부 OPEN API 레시피' })
 export class Recipe {
@@ -29,4 +30,6 @@ export class Recipe {
   imgUrl: string; // PC_NM 가격
   @Field(type => [DetailRecipe])
   detailRecipes: DetailRecipe[];
+  @Field(type => [Ingredient])
+  ingredients: Ingredient[];
 }
