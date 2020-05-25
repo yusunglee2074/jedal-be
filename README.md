@@ -17,8 +17,8 @@ yarn dev // 개발서버
 패스워드 wpcjfekffur
 
 ### AWS(DEV)
-id: m71664@gmail.com
-pwd: wocjfekffur1!
+- id: m71664@gmail.com
+- pwd: wocjfekffur1!
 
 
 ### 이슈
