@@ -5,6 +5,9 @@
 import { openApiCache } from '../cache';
 import { TrimmedRecipe } from '../scheme/TrimmedRecipe';
 import { getManager } from 'typeorm';
+import { SeasonIngredient } from '../scheme/SeasonIngredient';
+import { Ingredient } from '../scheme/Ingredient';
+import { Recipe } from '../scheme/Recipe';
 
 const convertCookingLevel = (level) => {
   if (level === '초보환영') return '쉬움';
@@ -17,20 +20,20 @@ const convertCategory = (category) => {
     '밑반찬/김치': '샐러드/밑반찬/김치',
     '만두/면류': '만두/면류/그라탕',
     '그라탕/리조또': '만두/면류/그라탕',
-    밥: '밥',
-    볶음: '구이/볶음/부침/튀김',
-    부침: '구이/볶음/부침/튀김',
+    '밥': '밥',
+    '볶음': '구이/볶음/부침/튀김',
+    '부침': '구이/볶음/부침/튀김',
     '튀김/커틀릿': '구이/볶음/부침/튀김',
-    구이: '구이/볶음/부침/튀김',
+    '구이': '구이/볶음/부침/튀김',
     '빵/과자': '간식',
-    양념장: '간식',
+    '양념장': '간식',
     '도시락/간식': '간식',
     '떡/한과': '간식',
-    음료: '간식',
-    조림: '조림/찜',
-    찜: '조림/찜',
+    '음료': '간식',
+    '조림': '조림/찜',
+    '찜': '조림/찜',
     '찌개/전골/스튜': '국/찌개',
-    국: '국/찌개',
+    '국': '국/찌개',
   };
   return obj[category];
 };
@@ -44,9 +47,9 @@ const convertCookingTime = (time) => {
 };
 
 (async (): Promise<void> => {
-  const seasonIngredients: any[] = openApiCache.get('seasonIngredients');
-  const recipes: any[] = openApiCache.get('recipes');
-  const ingredients: any[] = openApiCache.get('ingredients');
+  const seasonIngredients: SeasonIngredient[] = openApiCache.get('seasonIngredients');
+  const recipes: Recipe[] = openApiCache.get('recipes');
+  const ingredients: Ingredient[] = openApiCache.get('ingredients');
 
   const seasonIngredientsObj = {};
   for (let i = 0; i < seasonIngredients.length; i++) {
