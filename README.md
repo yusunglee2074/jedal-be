@@ -20,6 +20,8 @@ yarn dev // 개발서버
 - id: m71664@gmail.com
 - pwd: wocjfekffur1!
 
+### Test
+URL: http://test.api.jurtle.net:5000/
 
 ### 이슈
 스타벅스에서는 mongo cloud 에 접근 못하는 문제
