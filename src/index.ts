@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import App from './App';
 import * as env from 'dotenv';
 import * as path from 'path';
@@ -12,10 +13,10 @@ const PORT = process.env.PORT;
 
 // DB initialize
 
-(async () => {
+(async (): Promise<void> => {
   try {
     await App.connectDatabase();
-    App.express.listen(PORT, (err) => {
+    new App().express.listen(PORT, (err) => {
       if (err) {
         console.log("Can't launch express server");
       } else {
@@ -24,6 +25,6 @@ const PORT = process.env.PORT;
       }
     });
   } catch (e) {
-    console.log('DB 연결 실패', e);
+    console.log('서버 실행 실패', e);
   }
 })();
