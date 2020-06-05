@@ -26,7 +26,7 @@ export const changeAttributesName = (obj, key) => {
     case 'IRDNT_NM':
       obj.name = value;
       break;
-    case 'IRDNT_CPCTY ':
+    case 'IRDNT_CPCTY':
       obj.amount = value;
       break;
     case 'IRDNT_TY_NM':
@@ -98,3 +98,16 @@ export const changeOpenApiObjKey = (objArr) => {
   }
   return objArr;
 };
+
+export const getMonthsFromSeason = (season) => {
+  if (season === '봄') {
+    return ['3월', '4월', '5월'];
+  } else if (season === '여름') {
+    return ['6월', '7월', '8월'];
+  } else if (season === '가을') {
+    return ['9월', '10월', '11월'];
+  } else if (season === '겨울') {
+    return ['12월', '1월', '2월'];
+  }
+};
+

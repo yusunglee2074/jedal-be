@@ -13,9 +13,11 @@ import {
 } from 'type-graphql';
 import { Recipe } from '../scheme/Recipe';
 import { TrimmedRecipe } from '../scheme/TrimmedRecipe';
-import { getManager, In } from 'typeorm';
+import { getManager } from 'typeorm';
 import { openApiCache } from '../cache';
 import { SeasonIngredient } from '../scheme/SeasonIngredient';
+import { getMonthsFromSeason } from '../utils';
+import { Ingredient } from '../scheme/Ingredient';
 
 // TODO InputType 파일 분리 해야할지 말아야할지 결정해야함
 @InputType({ description: 'New recipe data' })
@@ -61,18 +63,6 @@ class TrimmedRecipesArgs {
   // helpers - index calculations
 }
 
-const getMonthsFromSeason = (season) => {
-  if (season === '봄') {
-    return ['3월', '4월', '5월'];
-  } else if (season === '여름') {
-    return ['6월', '7월', '8월'];
-  } else if (season === '가을') {
-    return ['9월', '10월', '11월'];
-  } else if (season === '겨울') {
-    return ['12월', '1월', '2월'];
-  }
-};
-
 @Resolver(TrimmedRecipe)
 export default class TrimmedRecipeResolver {
   private manager = getManager();
@@ -80,11 +70,22 @@ export default class TrimmedRecipeResolver {
   @FieldResolver(() => Recipe)
   async recipe(@Root() trimmedRecipe: TrimmedRecipe) {
     try {
-      const recipes: any[] = openApiCache.get('recipes');
-      return recipes.filter((el) => el.recipeId == trimmedRecipe.recipeId)[0];
+      const recipes: Recipe[] = openApiCache.get('recipes');
+      return recipes.filter((el) => Number(el.recipeId) == trimmedRecipe.recipeId)[0];
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log('에러발생');
+    }
+  }
+
+  @FieldResolver(() => [Ingredient])
+  async ingredients(@Root() trimmedRecipe: TrimmedRecipe) {
+    try {
+      const ingredients: Ingredient[] = openApiCache.get('ingredients');
+      return ingredients.filter((el) => trimmedRecipe.recipeId === Number(el.recipeId));
+    } catch (e) {
+      // TODO 에러 처리 모듈 만들기
+      console.log(e, '에러발생');
     }
   }
 
