@@ -11,3 +11,8 @@ hooks:
   ValidateService:
     - location: scripts/validate-service.sh
       timeout: 300
+permissions:
+  - object: /srv/api-server
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
