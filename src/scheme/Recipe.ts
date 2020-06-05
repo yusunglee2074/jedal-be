@@ -5,7 +5,7 @@ import { Ingredient } from './Ingredient';
 @ObjectType({ description: '정부 OPEN API 레시피' })
 export class Recipe {
   @Field((type) => ID)
-  _id: string; // RECIPE_ID 레시피아이디
+  recipeId: string; // RECIPE_ID 레시피아이디
   @Field()
   name: string; // RECIPE_NM_KO 레시피이름
   @Field()
