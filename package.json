@@ -6,11 +6,9 @@
   "author": "jedal",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --exec NODE_ENV=development npx ts-node -- ./src/index.ts",
-    "start": "NODE_ENV=production npx ts-node -- ./src/index.ts",
-    "start:staging": "NODE_ENV=development npx ts-node -- ./src/index.ts",
-    "deploy": "pm2 delete jedal-server && pm2 start --name jedal-server npm -- start",
-    "deploy:staging": "pm2 start --name jedal-server npm -- run start:staging",
+    "dev": "nodemon --exec NODE_ENV=development ts-node -- ./src/index.ts",
+    "start": "NODE_ENV=production ts-node -- ./src/index.ts",
+    "start:staging": "NODE_ENV=development ts-node -- ./src/index.ts",
     "test": "echo Have To TEST!"
   },
   "dependencies": {
@@ -38,9 +36,7 @@
     "@typescript-eslint/parser": "^2.27.0",
     "eslint": "^6.8.0",
     "nodemon": "^2.0.2",
-    "pm2": "^4.2.3",
     "prettier": "^2.0.4",
-    "ts-node": "^8.8.2",
     "typescript": "^3.8.3"
   }
 }
