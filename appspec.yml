@@ -12,7 +12,7 @@ hooks:
     - location: scripts/validate-service.sh
       timeout: 300
 permissions:
-  - object: /srv/api-server
-    pattern: "**"
+  - object: /srv/*
+    pattern: "*"
     owner: ubuntu
     group: ubuntu
