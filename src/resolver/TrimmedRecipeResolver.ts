@@ -16,8 +16,9 @@ import { TrimmedRecipe } from '../scheme/TrimmedRecipe';
 import { getManager } from 'typeorm';
 import { openApiCache } from '../cache';
 import { SeasonIngredient } from '../scheme/SeasonIngredient';
-import { getMonthsFromSeason } from '../utils';
+import { ObjectID } from 'mongodb';
 import { Ingredient } from '../scheme/Ingredient';
+import { History } from '../scheme/History';
 
 // TODO InputType 파일 분리 해야할지 말아야할지 결정해야함
 @InputType({ description: 'New recipe data' })
@@ -50,9 +51,11 @@ class AddTrimmedRecipeInput implements Partial<TrimmedRecipe> {
 @ArgsType()
 class TrimmedRecipesArgs {
   @Field({ nullable: true })
+  userId?: string;
+  @Field({ nullable: true })
   level?: string;
   @Field({ nullable: true })
-  _id?: string;
+  id?: string;
   @Field({ nullable: true })
   name?: string;
   @Field(() => [String], { nullable: true })
@@ -104,15 +107,15 @@ export default class TrimmedRecipeResolver {
 
   @Query(() => [TrimmedRecipe])
   async trimmedRecipes(@Args() args?: TrimmedRecipesArgs) {
-    const { level, _id, name, categories, hateIngredients, seasons } = args;
+    const { userId, level, id, name, categories, hateIngredients, seasons } = args;
     try {
       // TODO: Entity Manager and Repository TypeORM 둘 차이 체크해야함
+      if (id) {
+        return this.manager.findOne(TrimmedRecipe, id);
+      }
       const where: any = {};
       if (name) {
         where.recipeName = { $regex: new RegExp(`${name}`) };
-      }
-      if (_id) {
-        where._id = _id;
       }
       if (level) {
         where.cookingLevel = level;
@@ -126,7 +129,15 @@ export default class TrimmedRecipeResolver {
       if (seasons) {
         where.seasons = { $in: seasons };
       }
-      return await this.manager.find(TrimmedRecipe, { where });
+      const recipes = await this.manager.find(TrimmedRecipe, { where });
+      if (userId) {
+        const history = this.manager.create(History, {
+          userId: ObjectID(userId),
+          trimmedRecipeIds: recipes.map((el) => el._id),
+        });
+        await history.save();
+      }
+      return recipes;
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log('에러발생');
@@ -136,7 +147,8 @@ export default class TrimmedRecipeResolver {
   @Mutation(() => TrimmedRecipe)
   async addTrimmedRecipe(@Arg('data') newData: AddTrimmedRecipeInput): Promise<TrimmedRecipe> {
     const recipe = this.manager.create(TrimmedRecipe, newData);
-    return await recipe.save();
+    await recipe.save();
+    return recipe;
   }
 
   @Mutation(() => TrimmedRecipe)
