@@ -8,6 +8,7 @@ import { getManager } from 'typeorm';
 import { SeasonIngredient } from '../scheme/SeasonIngredient';
 import { Ingredient } from '../scheme/Ingredient';
 import { Recipe } from '../scheme/Recipe';
+import { getSeasonFromMonth } from './index';
 
 const convertCookingLevel = (level) => {
   if (level === '초보환영') return '쉬움';
@@ -85,6 +86,16 @@ const convertCookingTime = (time) => {
         };
       }
 
+      let seasons = trimmedRecipes[recipeId].seasons;
+      const season = getSeasonFromMonth(seasonIngredientsObj[name].month);
+
+      if (!seasons) {
+        trimmedRecipes[recipeId].seasons = [];
+        seasons = trimmedRecipes[recipeId].seasons;
+      } else if (seasons.indexOf(season) === -1) {
+        seasons = [...seasons, season];
+      }
+
       trimmedRecipes[recipeId] = {
         recipeId,
         ingredientCategory,
@@ -93,6 +104,7 @@ const convertCookingTime = (time) => {
         category: convertCategory(category),
         recipeName: recipe.name,
         seasonIngredientIds: [...trimmedRecipes[recipeId].seasonIngredientIds, seasonIngredientId],
+        seasons,
       };
     }
   }
