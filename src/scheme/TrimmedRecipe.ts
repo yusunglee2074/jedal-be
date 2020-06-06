@@ -36,6 +36,10 @@ export class TrimmedRecipe extends BaseEntity {
 
   @Field()
   @Column()
+  imgUrl: string; // 이미지 url
+
+  @Field()
+  @Column()
   ingredientCategory: string; // 재료분류
 
   @Field(() => [String])
