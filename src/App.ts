@@ -40,9 +40,15 @@ class App {
   private initGraphQL(): void {
     this.express.use(
       '/graphql',
-      graphqlHTTP({
-        schema: buildSchemaSync({ resolvers }),
-        graphiql: false,
+      graphqlHTTP((req) => {
+        return {
+          schema: buildSchemaSync({ resolvers }),
+          graphiql: false,
+          // TODO: 추후 토큰 방식 인증 이용할 때 context 정의
+          // context: {
+          //   userId: req.headers.userId
+          // },
+        };
       })
     );
   }
