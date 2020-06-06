@@ -1,5 +1,4 @@
-import { FieldResolver, Query, Resolver, Root } from 'type-graphql';
-import axios from 'axios';
+import { Query, Resolver } from 'type-graphql';
 import { Ingredient } from '../scheme/Ingredient';
 import { openApiCache } from '../cache';
 

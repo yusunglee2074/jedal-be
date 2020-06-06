@@ -1,6 +1,5 @@
-import { Field, FieldResolver, ID, Int, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 import { BaseEntity, Column, Entity, ObjectIdColumn, PrimaryGeneratedColumn } from 'typeorm';
-import { Recipe } from './Recipe';
 import { SeasonIngredient } from './SeasonIngredient';
 
 @Entity()
