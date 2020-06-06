@@ -111,3 +111,15 @@ export const getMonthsFromSeason = (season) => {
   }
 };
 
+export const getSeasonFromMonth = (month) => {
+  if (['3월', '4월', '5월'].indexOf(month) > -1) {
+    return '봄';
+  } else if (['6월', '7월', '8월'].indexOf(month) > -1) {
+    return '여름';
+  } else if (['9월', '10월', '11월'].indexOf(month) > -1) {
+    return '가을';
+  } else if (['12월', '1월', '2월'].indexOf(month) > -1) {
+    return '겨울';
+  }
+};
+
