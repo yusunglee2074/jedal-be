@@ -83,6 +83,9 @@ export const changeAttributesName = (obj, key) => {
     case 'PURCHASE_MTH':
       obj.purchaseTip = value;
       break;
+    case 'IMG_URL':
+      obj.imgUrl = value;
+      break;
   }
   delete obj[key];
 };

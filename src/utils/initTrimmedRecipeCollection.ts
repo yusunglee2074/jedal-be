@@ -103,6 +103,7 @@ const convertCookingTime = (time) => {
         cookingTime: convertCookingTime(time),
         category: convertCategory(category),
         recipeName: recipe.name,
+        imgUrl: recipe.imgUrl,
         seasonIngredientIds: [...trimmedRecipes[recipeId].seasonIngredientIds, seasonIngredientId],
         seasons,
       };
