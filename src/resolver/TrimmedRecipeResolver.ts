@@ -59,6 +59,8 @@ class TrimmedRecipesArgs {
   categories?: string[];
   @Field(() => [String], { nullable: true })
   hateIngredients?: string[];
+  @Field(() => [String], { nullable: true })
+  seasons?: string[];
 
   // helpers - index calculations
 }
@@ -90,19 +92,10 @@ export default class TrimmedRecipeResolver {
   }
 
   @FieldResolver(() => [SeasonIngredient])
-  async seasonIngredients(
-    @Root() trimmedRecipe: TrimmedRecipe,
-    @Arg('season', { nullable: true }) season?: string
-  ) {
+  async seasonIngredients(@Root() trimmedRecipe: TrimmedRecipe) {
     try {
       const seasonIngredients: SeasonIngredient[] = openApiCache.get('seasonIngredients');
-      if (season) {
-        return seasonIngredients
-          .filter((el) => trimmedRecipe.seasonIngredientIds.indexOf(Number(el._id)) > -1)
-          .filter((el) => getMonthsFromSeason(season).indexOf(el.month) > -1);
-      } else {
-        return seasonIngredients.filter((el) => trimmedRecipe.seasonIngredientIds.indexOf(Number(el._id)) > -1);
-      }
+      return seasonIngredients.filter((el) => trimmedRecipe.seasonIngredientIds.indexOf(Number(el._id)) > -1);
     } catch (e) {
       // TODO 에러 처리 모듈 만들기
       console.log(e, '에러발생');
@@ -111,7 +104,7 @@ export default class TrimmedRecipeResolver {
 
   @Query(() => [TrimmedRecipe])
   async trimmedRecipes(@Args() args?: TrimmedRecipesArgs) {
-    const { level, _id, name, categories, hateIngredients } = args;
+    const { level, _id, name, categories, hateIngredients, seasons } = args;
     try {
       // TODO: Entity Manager and Repository TypeORM 둘 차이 체크해야함
       const where: any = {};
@@ -129,6 +122,9 @@ export default class TrimmedRecipeResolver {
       }
       if (hateIngredients) {
         where.ingredientCategory = { $not: { $in: hateIngredients } };
+      }
+      if (seasons) {
+        where.seasons = { $in: seasons };
       }
       return await this.manager.find(TrimmedRecipe, { where });
     } catch (e) {

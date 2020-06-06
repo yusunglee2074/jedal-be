@@ -37,4 +37,8 @@ export class TrimmedRecipe extends BaseEntity {
   @Field()
   @Column()
   ingredientCategory: string; // 재료분류
+
+  @Field(() => [String])
+  @Column()
+  seasons: string[]; // 재철월
 }
