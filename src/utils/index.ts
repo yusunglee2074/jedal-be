@@ -83,6 +83,9 @@ export const changeAttributesName = (obj, key) => {
     case 'PURCHASE_MTH':
       obj.purchaseTip = value;
       break;
+    case 'IMG_URL':
+      obj.imgUrl = value;
+      break;
   }
   delete obj[key];
 };
@@ -108,6 +111,18 @@ export const getMonthsFromSeason = (season) => {
     return ['9월', '10월', '11월'];
   } else if (season === '겨울') {
     return ['12월', '1월', '2월'];
+  }
+};
+
+export const getSeasonFromMonth = (month) => {
+  if (['3월', '4월', '5월'].indexOf(month) > -1) {
+    return '봄';
+  } else if (['6월', '7월', '8월'].indexOf(month) > -1) {
+    return '여름';
+  } else if (['9월', '10월', '11월'].indexOf(month) > -1) {
+    return '가을';
+  } else if (['12월', '1월', '2월'].indexOf(month) > -1) {
+    return '겨울';
   }
 };
 

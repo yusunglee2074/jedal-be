@@ -1,6 +1,5 @@
-import { FieldResolver, Query, Resolver, Root } from 'type-graphql';
+import { Query, Resolver } from 'type-graphql';
 import { SeasonIngredient } from '../scheme/SeasonIngredient';
-import axios from 'axios';
 import { openApiCache } from '../cache';
 
 @Resolver(SeasonIngredient)
