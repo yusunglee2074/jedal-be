@@ -19,7 +19,7 @@ export default class UserResolver {
     }
   }
 
-  @Query(() => User)
+  @Query(() => User, { nullable: true })
   async user(@Arg('userId', { nullable: false }) userId: string): Promise<User> {
     try {
       return this.manager.findOne(User, userId);

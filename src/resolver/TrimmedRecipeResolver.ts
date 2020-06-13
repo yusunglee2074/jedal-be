@@ -105,7 +105,7 @@ export default class TrimmedRecipeResolver {
     }
   }
 
-  @Query(() => [TrimmedRecipe])
+  @Query(() => [TrimmedRecipe], { nullable: true })
   async trimmedRecipes(@Args() args?: TrimmedRecipesArgs) {
     const { userId, level, id, name, categories, hateIngredients, seasons } = args;
     try {
