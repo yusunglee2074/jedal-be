@@ -50,6 +50,9 @@ export const changeAttributesName = (obj, key) => {
     case 'CALORIE':
       obj.calorie = value;
       break;
+    case 'LEVEL_NM':
+      obj.cookingLevel = value;
+      break;
     case 'QNT':
       obj.amount = value;
       break;
@@ -125,4 +128,3 @@ export const getSeasonFromMonth = (month) => {
     return '겨울';
   }
 };
-
