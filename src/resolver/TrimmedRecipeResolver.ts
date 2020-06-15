@@ -111,7 +111,7 @@ export default class TrimmedRecipeResolver {
     try {
       // TODO: Entity Manager and Repository TypeORM 둘 차이 체크해야함
       if (id) {
-        return this.manager.findOne(TrimmedRecipe, id);
+        return this.manager.find(TrimmedRecipe, { _id: ObjectID(id) });
       }
       const where: any = {};
       if (name) {
