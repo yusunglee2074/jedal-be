@@ -108,10 +108,11 @@ export default class TrimmedRecipeResolver {
   @Query(() => [TrimmedRecipe], { nullable: true })
   async trimmedRecipes(@Args() args?: TrimmedRecipesArgs) {
     const { userId, level, id, name, categories, hateIngredients, seasons } = args;
+
     try {
       // TODO: Entity Manager and Repository TypeORM 둘 차이 체크해야함
       if (id) {
-        return this.manager.find(TrimmedRecipe, { _id: ObjectID(id) });
+        return this.manager.find(TrimmedRecipe, { recipeId: Number(id) });
       }
       const where: any = {};
       if (name) {
@@ -129,6 +130,7 @@ export default class TrimmedRecipeResolver {
       if (seasons) {
         where.seasons = { $in: seasons };
       }
+
       const recipes = await this.manager.find(TrimmedRecipe, { where });
       if (userId) {
         const history = this.manager.create(History, {
