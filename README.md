@@ -18,7 +18,6 @@ yarn dev // 개발서버
 
 ### AWS(DEV)
 - id: m71664@gmail.com
-- pwd: wocjfekffur1!
 
 ### Test
 URL: http://test.api.jurtle.net:5000/
